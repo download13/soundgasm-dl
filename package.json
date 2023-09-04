@@ -1,0 +1,32 @@
+{
+	"name": "soundgasm-dl",
+	"version": "0.1.0",
+	"description": "",
+	"main": "index.js",
+	"bin": {
+		"sgdl": "./src/index.ts"
+	},
+	"scripts": {
+		"start": "tsx src/index.tsx",
+		"test": "node --no-warnings --loader=tsx --test test/common/profile.ts"
+	},
+	"type": "module",
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@total-typescript/ts-reset": "0.5.1",
+		"@types/react": "18.2.21",
+		"esbuild": "0.19.2",
+		"ink": "4.4.0",
+		"mkdirp": "3.0.1",
+		"node-html-parser": "6.1.6",
+		"p-map": "6.0.0",
+		"react": "18.2.0",
+		"tsx": "3.12.8",
+		"typescript": "5.2.2"
+	},
+	"dependencies": {
+		"@types/node": "^20.5.8",
+		"commander": "^11.0.0"
+	}
+}
