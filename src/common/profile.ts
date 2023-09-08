@@ -27,12 +27,10 @@ export async function getProfilePublicTracks(
 	return urls
 }
 
-export function parseProfileUrlInfo(v: string): ProfileUrlInfo | null {
-	if (typeof v !== 'string') return null
-
+export function parseProfileUrlInfo(v: string): ProfileUrlInfo {
 	const match = v.match(/https:\/\/soundgasm.net\/u\/([0-9a-zA-Z]+)/)
 
-	if (!match) return null
+	if (!match) return { profileSlug: v }
 
 	const [, profileSlug] = match
 

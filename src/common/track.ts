@@ -7,7 +7,14 @@ export type TrackUrlInfo = ProfileUrlInfo & {
 	trackSlug: string
 }
 
-export async function downloadTrack(trackInfo: TrackUrlInfo, store: Store) {
+export async function ensureTrackDownloaded(
+	trackInfo: TrackUrlInfo,
+	store: Store
+) {
+	if (await store.hasTrack(trackInfo)) {
+		return
+	}
+
 	const downloadInfo = await getTrackDownloadUrl(trackInfo)
 
 	if (!downloadInfo) return null

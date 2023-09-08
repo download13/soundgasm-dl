@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 // import React, { useState, useEffect } from 'react'
 // import { render, Text } from 'ink'
-import { downloadTrack, parseTrackUrlInfo } from '@/common/track.ts'
+import { ensureTrackDownloaded, parseTrackUrlInfo } from '@/common/track.ts'
 import { Store } from '@/store/index.ts'
 
 export async function trackCommand(
@@ -20,5 +20,5 @@ export async function trackCommand(
 		return console.log('invalid track url')
 	}
 
-	await downloadTrack(trackInfo, store)
+	await ensureTrackDownloaded(trackInfo, store)
 }

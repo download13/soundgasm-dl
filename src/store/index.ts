@@ -1,6 +1,8 @@
-import { parseTrackUrlInfo, type TrackUrlInfo } from '@/common/track.ts'
+import type { TrackUrlInfo } from '@/common/track.ts'
+
 import { createWriteStream, WriteStream } from 'node:fs'
-import { dirname } from 'node:path'
+import { stat, readdir } from 'node:fs/promises'
+import { basename, dirname, extname } from 'node:path'
 
 import { mkdirp } from 'mkdirp'
 
@@ -29,5 +31,27 @@ export class Store {
 		const fileStream = WriteStream.toWeb(createWriteStream(filePath))
 
 		await stream.pipeTo(fileStream)
+	}
+
+	async hasTrack({ profileSlug, trackSlug }: TrackUrlInfo) {
+		const profilePath = `${this.#dataPath}/${profileSlug}`
+
+		const profileStat = await stat(profilePath)
+		if (!profileStat.isDirectory()) {
+			return false
+		}
+
+		const trackFiles = await readdir(profilePath)
+		const trackSlugs = trackFiles.map(filename =>
+			basename(filename, extname(filename))
+		)
+
+		if (!trackSlugs.includes(trackSlug)) {
+			return false
+		}
+
+		const info = await stat(`${profilePath}/${trackSlug}`)
+
+		return info.size > 0
 	}
 }
