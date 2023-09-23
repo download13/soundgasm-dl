@@ -11,7 +11,10 @@ export async function ensureTrackDownloaded(
 	trackInfo: TrackUrlInfo,
 	store: Store
 ) {
+	const trackString = `${trackInfo.profileSlug}/${trackInfo.trackSlug}`
+
 	if (await store.hasTrack(trackInfo)) {
+		console.log(`Track ${trackString} exists in store, skipping`)
 		return
 	}
 
@@ -22,7 +25,14 @@ export async function ensureTrackDownloaded(
 	const res = await fetch(downloadInfo.url)
 
 	if (res.body) {
-		store.streamTo(res.body, trackInfo, downloadInfo.extension)
+		console.log(`Downloading track ${trackString}`)
+
+		await store.streamTo(res.body, {
+			...trackInfo,
+			extension: downloadInfo.extension,
+		})
+
+		console.log(`Stored track ${trackString}`)
 	}
 }
 

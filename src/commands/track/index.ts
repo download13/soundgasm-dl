@@ -14,7 +14,7 @@ export async function trackCommand(
 	const store = new Store({ dataPath: options.dataPath })
 
 	const trackInfo = parseTrackUrlInfo(trackUrl)
-	console.log('trackCommand', trackInfo)
+	// console.log('trackCommand', trackInfo)
 
 	if (!trackInfo) {
 		return console.log('invalid track url')

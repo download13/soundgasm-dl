@@ -20,7 +20,7 @@ export async function getProfilePublicTracks(
 	const trackUrls = trackLinks
 		.map(el => el.getAttribute('href'))
 		.filter((link): link is string => typeof link === 'string')
-	console.log(trackUrls)
+	// console.log('trackUrls', trackUrls)
 
 	const urls = trackUrls.flatMap(v => parseTrackUrlInfo(v) ?? [])
 

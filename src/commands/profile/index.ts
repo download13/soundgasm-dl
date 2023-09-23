@@ -32,7 +32,4 @@ export async function profileCommand(
 		},
 		{ concurrency }
 	)
-
-	console.log({ profileInfo, concurrency, wait, tracks })
-	// TODO: dl profile
 }
