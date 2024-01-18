@@ -1,6 +1,8 @@
+%%raw(`
 import { program } from 'commander'
 import { trackCommand } from './commands/track/index.ts'
 import { profileCommand } from './commands/profile/index.ts'
+import { updateCommand } from './commands/update.ts'
 
 program
 	.name('soundgasm-dl')
@@ -12,7 +14,7 @@ program
 program.option(
 	'-d, --data-path <path>',
 	'directory to use as storage context',
-	'.'
+	'./data'
 )
 
 program
@@ -27,6 +29,17 @@ program
 	.argument('<profile>', 'URL or slug of the profile')
 	.option('-c, --concurrency <int>', 'how many tracks to download at once', '1')
 	.option('-w, --wait <seconds>', 'How long to wait between tracks', '1')
+	.option(
+		'-u, --update',
+		'Get the latest tracks from each profile in the data directory',
+		false
+	)
 	.action(profileCommand)
 
+program
+	.command('update')
+	.description('download any non-stored tracks from all users in the database')
+	.action(updateCommand)
+
 program.parse()
+`)

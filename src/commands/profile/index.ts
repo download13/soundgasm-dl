@@ -8,9 +8,11 @@ import { Store } from '@/store/index.ts'
 import { Command } from 'commander'
 import pMap from 'p-map'
 
+import './google.ts'
+
 export async function profileCommand(
 	profile: string,
-	localOptions: { concurrency: string; wait: string },
+	localOptions: { concurrency: string; wait: string; update: boolean },
 	program: Command
 ) {
 	const concurrency = parseInt(localOptions.concurrency) ?? 1
@@ -28,7 +30,7 @@ export async function profileCommand(
 		tracks,
 		async track => {
 			await ensureTrackDownloaded(track, store)
-			await waitMilliseconds(wait * 1000)
+			waitMilliseconds(wait * 1000)
 		},
 		{ concurrency }
 	)

@@ -1,0 +1,14 @@
+rescript = 1
+g_finger := C:\Users\downl\code\projects\soundgasm-dl\node_modules\@rescript\core\lib\ocaml\install.stamp
+rule astj
+  command = "C:\Users\downl\code\projects\soundgasm-dl\node_modules\rescript\win32\bsc.exe"  -bs-v 11.0.0 -uncurried -open RescriptCore -absname -bs-ast -o $out $i
+o src\Main.ast : astj ..\..\src\Main.res
+rule deps
+  command = "C:\Users\downl\code\projects\soundgasm-dl\node_modules\rescript\win32\bsb_helper.exe" -hash 6fffe76f970de4b8252db557d5143248 $in
+  restat = 1
+o src\Main.d : deps src\Main.ast
+rule mij
+  command = "C:\Users\downl\code\projects\soundgasm-dl\node_modules\rescript\win32\bsc.exe" -I "src\commands\profile" -I "src\commands\track" -I "src\commands" -I "src\common" -I "src\store" -I src -I "C:\Users\downl\code\projects\soundgasm-dl\node_modules\@rescript\core\lib\ocaml" -open RescriptCore  -uncurried -bs-package-name soundgasm-dl -bs-package-output es6:$in_d:.res.js -bs-v $g_finger $i
+  dyndep = 1
+  restat = 1
+o src\Main.cmj src\Main.cmi ..\..\src\Main.res.js : mij src\Main.ast

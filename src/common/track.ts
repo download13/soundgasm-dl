@@ -7,20 +7,34 @@ export type TrackUrlInfo = ProfileUrlInfo & {
 	trackSlug: string
 }
 
+type TrackStatus = {
+	stored: boolean
+	fromServer: boolean
+	error?: string
+}
+
 export async function ensureTrackDownloaded(
 	trackInfo: TrackUrlInfo,
 	store: Store
-) {
+): TrackStatus {
 	const trackString = `${trackInfo.profileSlug}/${trackInfo.trackSlug}`
 
 	if (await store.hasTrack(trackInfo)) {
 		console.log(`Track ${trackString} exists in store, skipping`)
-		return
+		return {
+			stored: true,
+			fromServer: false,
+		}
 	}
 
 	const downloadInfo = await getTrackDownloadUrl(trackInfo)
 
-	if (!downloadInfo) return null
+	if (!downloadInfo)
+		return {
+			stored: false,
+			fromServer: false,
+			error: 'Unable to parse download URL from page',
+		} as const
 
 	const res = await fetch(downloadInfo.url)
 
@@ -33,6 +47,11 @@ export async function ensureTrackDownloaded(
 		})
 
 		console.log(`Stored track ${trackString}`)
+
+		return {
+			stored: true,
+			fromServer: true,
+		}
 	}
 }
 

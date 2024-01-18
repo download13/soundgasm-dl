@@ -6,12 +6,14 @@ export type ProfileUrlInfo = {
 	profileSlug: string
 }
 
+export function getProfileUrl(profileSlug: string): string {
+	return `https://soundgasm.net/u/${profileSlug}`
+}
+
 export async function getProfilePublicTracks(
 	profile: ProfileUrlInfo
 ): Promise<TrackUrlInfo[]> {
-	const profilePageHtml = await fetchText(
-		`https://soundgasm.net/u/${profile.profileSlug}`
-	)
+	const profilePageHtml = await fetchText(getProfileUrl(profile.profileSlug))
 
 	const profilePage = parse(profilePageHtml)
 
